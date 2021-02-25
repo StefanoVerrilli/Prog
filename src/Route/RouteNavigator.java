@@ -7,9 +7,11 @@ import Model.UserModel.User;
 import View.LoginView.LoginPanel;
 import View.ViewPanel;
 
+import java.sql.SQLException;
+
 public class RouteNavigator {
 
-    public static void selectHome(LoginAttempT loginView, User userModel) {
+    public static void selectHome(LoginAttempT loginView, User userModel) throws SQLException {
 
         HomeFactory genericHomeView;
 

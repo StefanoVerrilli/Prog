@@ -3,6 +3,7 @@ package View.ClientView.HistoryView;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -31,7 +32,11 @@ public class HistoryButton extends JButton implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == this) {
 			MainPane finestra = MainPane.getPane(); // si collega alla finestra principale
-			finestra.refreshPane(new NoleggioPanel()); // ricarica il pannello per mostrare la finestra di noleggio
+			try {
+				finestra.refreshPane(new NoleggioPanel()); // ricarica il pannello per mostrare la finestra di noleggio
+			} catch (SQLException sqlException) {
+				sqlException.printStackTrace();
+			}
 		}
 	}
 }

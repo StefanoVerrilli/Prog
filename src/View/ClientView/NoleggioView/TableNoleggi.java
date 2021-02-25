@@ -1,22 +1,29 @@
 package View.ClientView.NoleggioView;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class TableNoleggi extends JPanel {
     JTable table;
-    public TableNoleggi(String[] Columns, Object[][] Data) {
-        table = new JTable(Data, Columns) {
+    public TableNoleggi(JTable table2) {
+        this.table=table2;
+
+                /*= new JTable(Model) {
             @Override
             public boolean isCellEditable(int raw, int column) {
                 switch(column){
-                    case 3:
+                    case 2:
                         return true;
                     default:
                         return false;
                 }
             }
-        };
+        };*/
+
+
+
+
         table.setFont(new Font("Dialog", Font.PLAIN, 20));
         table.setFillsViewportHeight(true);
         table.setRowHeight(30);
@@ -25,8 +32,7 @@ public class TableNoleggi extends JPanel {
         int dim = table.getRowCount() * table.getRowHeight();
         System.out.println(table.getSize());
         table.setBackground(Color.white);
-        table.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
-        table.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JTextField()));
+        //table.getColumnModel().getColumn(2).setCellEditor(new ButtonEditor(new JTextField()));
         table.getTableHeader().setReorderingAllowed(false); // disabilita la modifica dell'ordine delle colonne
         table.getTableHeader().setResizingAllowed(false); // disabilita il ridimensionamento delle colonne
 

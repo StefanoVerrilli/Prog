@@ -2,9 +2,11 @@ package Database;
 
 
 import Model.UserModel.*;
+import View.ClientView.NoleggioView.Park;
 
-import javax.xml.transform.Result;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class GenericDb {
@@ -24,6 +26,10 @@ public class GenericDb {
                     "Password varchar(30),Name varchar(30),Surname varchar(30)," +                                     //Creazione Della tabella Utente
                     "Telephone varchar(30),Mail varchar(30),PersonalID varchar(30),PRIMARY KEY (USERID))";
             statement.execute(sqlCreate);
+            String sqlCreate1= "CREATE TABLE IF NOT EXISTS Parcheggio(Nome varchar(30),"+
+                    "Indirizzo varchar(30),Lat float(30,10),Long float(30,10),PRIMARY KEY (Indirizzo))";
+            statement.execute(sqlCreate1);
+
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
         }
@@ -125,6 +131,20 @@ public class GenericDb {
             System.out.println(sqlException.getMessage());
         }
         return false;
+    }
+
+
+    public int GetNumber(Connection conn){
+        String sqlSelect = "SELECT COUNT(*) FROM Parcheggio;";
+        try (Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlSelect)){
+            return resultSet.getInt("Count(*)");
+
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return -1;
     }
 
     //Necessario per la ricerca di uno specifico utente in fase di login
@@ -230,6 +250,24 @@ public class GenericDb {
 
         return "0";
     }
+
+    public ArrayList<Park> GetParkings() throws SQLException {
+        String sqlPark = "SELECT Nome,Indirizzo,'Prenota'as Status FROM Parcheggio";
+        try(Connection conn = this.connect();
+            Statement statement = conn.createStatement();
+            ResultSet result = statement.executeQuery(sqlPark)) {
+            ArrayList<Park> parks = new ArrayList<Park>();
+            while(result.next()){
+                Park park = new Park(result.getString("Nome"),result.getString("Indirizzo"));
+                parks.add(park);
+            }
+            return parks;
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return new ArrayList<Park>();
+    }
+
 
 
 //Ringrazio Francesco Pollastro che mi ha dato l' ispirazione in questa

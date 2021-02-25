@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
         //this.setSize(1200, 955);
         this.setVisible(true);
         panel.requestFocus();
+        this.pack();
 
     }
 

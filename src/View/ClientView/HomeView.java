@@ -12,10 +12,11 @@ import GeneralInsert.GeneralImageInsert;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class HomeView extends JPanel {
     JLayeredPane Pain;
-    public HomeView(){
+    public HomeView() throws SQLException {
 
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));  // Settings for the main frame
         this.setSize(2200,2000);
