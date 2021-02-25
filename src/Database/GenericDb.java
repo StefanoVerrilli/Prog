@@ -26,9 +26,21 @@ public class GenericDb {
                     "Password varchar(30),Name varchar(30),Surname varchar(30)," +                                     //Creazione Della tabella Utente
                     "Telephone varchar(30),Mail varchar(30),PersonalID varchar(30),PRIMARY KEY (USERID))";
             statement.execute(sqlCreate);
-            String sqlCreate1= "CREATE TABLE IF NOT EXISTS Parcheggio(Nome varchar(30),"+
-                    "Indirizzo varchar(30),Lat float(30,10),Long float(30,10),PRIMARY KEY (Indirizzo))";
+            String sqlCreate1= "CREATE TABLE IF NOT EXISTS Park(ParkID integer,Nome varchar(30),"+
+                    "Indirizzo varchar(30),Lat float(5,2),Long float(5,2),PRIMARY KEY (ParkID))";
             statement.execute(sqlCreate1);
+            sqlCreate = "CREATE TABLE IF NOT EXISTS CarModel(Modello varchar(30),"+
+                    "Marca varchar(30),N_Posti integer,Tipologia varchar(30),PRIMARY KEY(Modello,Marca))";
+            statement.execute(sqlCreate);
+            sqlCreate = "CREATE TABLE IF NOT EXISTS Car(Targa varchar(30),ParkID integer,"+
+                    "Modello varchar(30),Marca varchar(30),FOREIGN KEY(Modello) REFERENCES CarModel(Modello)" +
+                    "PRIMARY KEY (Targa),FOREIGN KEY(ParkID) REFERENCES Park(ParkID))";
+            statement.execute(sqlCreate);
+            sqlCreate = "CREATE TABLE IF NOT EXISTS Rent(Targa varchar(30),"+
+                    "USERID integer,Orario date, FOREIGN KEY(Targa) REFERENCES CAR(Targa)," +
+                    "FOREIGN KEY(USERID) REFERENCES Client(USERID), PRIMARY KEY (Targa,USERID,Orario))";
+            statement.execute(sqlCreate);
+            //sqlCreate = "CREATE TABLE IF NOT EXISTS Carta(Numero)"
 
         } catch (SQLException sqlException) {
             System.out.println(sqlException.getMessage());
@@ -252,13 +264,13 @@ public class GenericDb {
     }
 
     public ArrayList<Park> GetParkings() throws SQLException {
-        String sqlPark = "SELECT Nome,Indirizzo,'Prenota'as Status FROM Parcheggio";
+        String sqlPark = "SELECT Nome,Indirizzo,Lat,Long FROM Parcheggio";
         try(Connection conn = this.connect();
             Statement statement = conn.createStatement();
             ResultSet result = statement.executeQuery(sqlPark)) {
             ArrayList<Park> parks = new ArrayList<Park>();
             while(result.next()){
-                Park park = new Park(result.getString("Nome"),result.getString("Indirizzo"));
+                Park park = new Park(result.getString("Nome"),result.getString("Indirizzo"),result.getFloat("Lat"),result.getFloat("Long"));
                 parks.add(park);
             }
             return parks;
@@ -267,6 +279,7 @@ public class GenericDb {
         }
         return new ArrayList<Park>();
     }
+
 
 
 

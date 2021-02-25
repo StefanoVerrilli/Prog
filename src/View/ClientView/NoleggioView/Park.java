@@ -9,21 +9,21 @@ public class Park  {
     private String id;
     private String street;
     private int capacity;
-    private int latitude;
-    private int longitude;
+    private float latitude;
+    private float longitude;
   //  ArrayList<Auto> autoCollection;
 
     Park(){
 
     }
 
-    public Park(String name, String Indirizzo){
+    public Park(String name, String Indirizzo,float Lat,float Long){
         this.name = name;
         this.id = id;
         this.street = Indirizzo;
         this.capacity = capacity;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = Lat;
+        this.longitude = Long;
       //  this.autoCollection = autoCollection;
     }
 
@@ -43,11 +43,11 @@ public class Park  {
         return capacity;
     }
 
-    public int getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public int getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
