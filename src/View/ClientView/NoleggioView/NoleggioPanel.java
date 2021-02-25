@@ -24,17 +24,8 @@ public class NoleggioPanel extends JPanel {
         String[] columns = {"ParkName","Indirizzo","Prova"};
 
         ArrayList<Park> data = GenericDb.getIstance().GetParkings();
-        DefaultTableModel Model = new DefaultTableModel(columns,0);
-        JTable table = new JTable(Model);
 
-        for(int i=0;i<data.size();i++){
-            String Nome = data.get(i).getName();
-            String Indirizzo = data.get(i).getStreet();
-            Object[] array = {Nome,Indirizzo,"Prenota"};
-            Model.addRow(array);
-        }
-
-        TableNoleggi scroll = new TableNoleggi(table);
+        TableNoleggi scroll = new TableNoleggi(data,columns);
 
         CustomMap map = new CustomMap(){
             @Override
