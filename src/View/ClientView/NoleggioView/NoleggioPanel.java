@@ -65,7 +65,6 @@ public class NoleggioPanel extends JPanel implements Observable, Observer {
 
     @Override
     public void update(ParkImplement park) throws SQLException, ClassNotFoundException {
-        System.out.println("ci");
         String[] columns = {"ParkName", "Indirizzo", ""};
         TableNoleggi scroll = new TableNoleggi(park.getParks(), columns);
         this.add(scroll, BorderLayout.SOUTH);

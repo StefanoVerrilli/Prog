@@ -1,5 +1,5 @@
 package View;
 
-public class LogoutPanel {
+public class LogoutPanel extends {
 
 }
