@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.StateModel.State;
 import ObserverLogin.Observer;
 import Model.UserModel.User;
 import View.LoginView.LoginAttempT;
@@ -13,7 +14,7 @@ public class LoginController implements Observer {
     private User userModel;
     private LoginAttempT loginView;
 
-    public LoginController( LoginAttempT loginAttempT) {
+    public LoginController(LoginAttempT loginAttempT) {
         this.loginView = loginAttempT;
         this.loginView.attach(this);
     }
@@ -26,23 +27,28 @@ public class LoginController implements Observer {
         //Query
         userModel.getUserByIdAndPassword();
 
+
         //Attach view to "new" Model
-        if(!userModel.equals(userTempModel)) userModel.attach(loginView);
+        if (!userModel.equals(userTempModel)) userModel.attach(loginView);
 
         //Notify View
         userModel.inform();
 
         //SwitchView
-        if (userModel.getState()) RouteNavigator.selectHome(loginView, userModel);
+        if (userModel.getState()) {
+            State.getIstance().setId(userModel.getId());
+            State.getIstance().setCategory(userModel.getCategory());
+            System.out.println(State.getIstance().getId());
+            RouteNavigator.selectHome(loginView, userModel);
+        }
     }
+        public User getUserModel () {
+            return userModel;
+        }
 
-    public User getUserModel() {
-        return userModel;
+        public LoginAttempT getLoginView () {
+            return loginView;
+        }
+
+
     }
-
-    public LoginAttempT getLoginView() {
-        return loginView;
-    }
-
-
-}

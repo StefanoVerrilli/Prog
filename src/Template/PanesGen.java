@@ -19,7 +19,5 @@ public class PanesGen extends JPanel {
         this.add(Front);
         this.add(Box.createVerticalGlue());
         this.setVisible(true);
-
-
     }
 }

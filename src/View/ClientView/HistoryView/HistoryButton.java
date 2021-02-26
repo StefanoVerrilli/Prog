@@ -34,8 +34,8 @@ public class HistoryButton extends JButton implements ActionListener {
 			MainPane finestra = MainPane.getPane(); // si collega alla finestra principale
 			try {
 				finestra.refreshPane(new NoleggioPanel()); // ricarica il pannello per mostrare la finestra di noleggio
-			} catch (SQLException sqlException) {
-				sqlException.printStackTrace();
+			} catch (SQLException | ClassNotFoundException throwables) {
+				throwables.printStackTrace();
 			}
 		}
 	}

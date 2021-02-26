@@ -1,12 +1,12 @@
 package Database;
 
 
+import Model.ParkModel.Park;
 import Model.UserModel.*;
-import View.ClientView.NoleggioView.Park;
+
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class GenericDb {
@@ -22,23 +22,23 @@ public class GenericDb {
         //Creazione dello statement necessario per effettuare la formattazione della query
 
         try {
-            String sqlCreate = "CREATE TABLE IF NOT EXISTS Client (USERID integer," +
-                    "Password varchar(30),Name varchar(30),Surname varchar(30)," +                                     //Creazione Della tabella Utente
-                    "Telephone varchar(30),Mail varchar(30),PersonalID varchar(30),PRIMARY KEY (USERID))";
+            String sqlCreate = "CREATE TABLE IF NOT EXISTS CLIENT (ID integer," +
+                    "PASSWORD varchar(30),NAME varchar(30),SURNAME varchar(30)," +                                     //Creazione Della tabella Utente
+                    "MAIL varchar(30),PERSONAL_ID varchar(30),TELEPHONE varchar(30),PRIMARY KEY (ID));";
             statement.execute(sqlCreate);
-            String sqlCreate1= "CREATE TABLE IF NOT EXISTS Park(ParkID integer,Nome varchar(30),"+
-                    "Indirizzo varchar(30),Lat float(5,2),Long float(5,2),PRIMARY KEY (ParkID))";
+            String sqlCreate1 = "CREATE TABLE IF NOT EXISTS PARK(ID integer,NAME varchar(30)," +
+                    "STREET varchar(30),CAPACITY integer (30),LATITUDE float(5,2),LONGITUDE float(5,2),PRIMARY KEY (ID));";
             statement.execute(sqlCreate1);
-            sqlCreate = "CREATE TABLE IF NOT EXISTS CarModel(Modello varchar(30),"+
-                    "Marca varchar(30),N_Posti integer,Tipologia varchar(30),PRIMARY KEY(Modello,Marca))";
+            sqlCreate = "CREATE TABLE IF NOT EXISTS CAR(ID varchar(30),CAR_NAME varchar(30)," +
+                    "BRAND varchar(30),CAR_PLATE varchar(30),COLOR varchar(30), SEATS integer ,PRIMARY KEY(ID), FOREIGN KEY(ID) REFERENCES PARK(ID)); ";
             statement.execute(sqlCreate);
-            sqlCreate = "CREATE TABLE IF NOT EXISTS Car(Targa varchar(30),ParkID integer,"+
+            /*sqlCreate = "CREATE TABLE IF NOT EXISTS Car(Targa varchar(30),ParkID integer," +
                     "Modello varchar(30),Marca varchar(30),FOREIGN KEY(Modello) REFERENCES CarModel(Modello)" +
                     "PRIMARY KEY (Targa),FOREIGN KEY(ParkID) REFERENCES Park(ParkID))";
-            statement.execute(sqlCreate);
-            sqlCreate = "CREATE TABLE IF NOT EXISTS Rent(Targa varchar(30),"+
+            statement.execute(sqlCreate);*/
+           /* sqlCreate = "CREATE TABLE IF NOT EXISTS Rent(Targa varchar(30)," +
                     "USERID integer,Orario date, FOREIGN KEY(Targa) REFERENCES CAR(Targa)," +
-                    "FOREIGN KEY(USERID) REFERENCES Client(USERID), PRIMARY KEY (Targa,USERID,Orario))";
+                    "FOREIGN KEY(USERID) REFERENCES Client(USERID), PRIMARY KEY (Targa,USERID,Orario))";*/
             statement.execute(sqlCreate);
             //sqlCreate = "CREATE TABLE IF NOT EXISTS Carta(Numero)"
 
@@ -70,9 +70,8 @@ public class GenericDb {
     private Connection connect() throws SQLException {
         Connection conn = null;
         try {
-            if (conn == null) {
-                conn = DriverManager.getConnection(DATABASE_URL);
-            }
+            conn = DriverManager.getConnection(DATABASE_URL);
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -89,7 +88,7 @@ public class GenericDb {
              Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(sqlSelect)) {
             while (resultSet.next()) {
-                System.out.println(resultSet.getString("USERID") + resultSet.getString("Password"));
+                System.out.println(resultSet.getString("ID") + resultSet.getString("PASSWORD"));
             }
             conn.close();
             resultSet.close();
@@ -106,7 +105,7 @@ public class GenericDb {
 
     public void insertClients(Client client) throws SQLException {
         String next = GetNext();
-        String sqlSelect = " INSERT INTO Client (USERID,Password,Mail,PersonalID,Name,Surname,Telephone) VALUES (?,?,?,?,?,?,?)";
+        String sqlSelect = " INSERT INTO CLIENT (ID,PASSWORD,MAIL,PERSONAL_ID,NAME,SURNAME,TELEPHONE) VALUES (?,?,?,?,?,?,?);";
         try (Connection conn = this.connect();
              PreparedStatement s = conn.prepareStatement(sqlSelect)) {
             s.setInt(1, Integer.parseInt(next));
@@ -130,7 +129,7 @@ public class GenericDb {
 
     public boolean GetEmail(String mail, Connection conn) {
         Boolean bool = false;
-        String sqlSelect = "SELECT COUNT(*) FROM Client WHERE Mail=?";
+        String sqlSelect = "SELECT COUNT(*) FROM CLIENT WHERE MAIL=?;";
         try {
             PreparedStatement s = conn.prepareStatement(sqlSelect);
             s.setString(1, (mail));
@@ -145,26 +144,12 @@ public class GenericDb {
         return false;
     }
 
-
-    public int GetNumber(Connection conn){
-        String sqlSelect = "SELECT COUNT(*) FROM Parcheggio;";
-        try (Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(sqlSelect)){
-            return resultSet.getInt("Count(*)");
-
-        }catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-
-        return -1;
-    }
-
     //Necessario per la ricerca di uno specifico utente in fase di login
     //Permette di ricercare nel db un utente che abbia Password e UserId
     //Coincidenti con quelli inseriti nei campi comilabili
 
     public void loginClient(Client userModel) {
-        String sqlSelect = "SELECT Password,USERID,Mail,PersonalID,Name,Surname,Telephone FROM Client WHERE USERID=? AND Password=?;";
+        String sqlSelect = "SELECT PASSWORD,ID,MAIL,PERSONAL_ID,NAME,SURNAME,TELEPHONE FROM Client WHERE ID=? AND Password=?;";
         try {
             Connection conn = this.connect();
             PreparedStatement s = conn.prepareStatement(sqlSelect);
@@ -173,10 +158,11 @@ public class GenericDb {
             ResultSet result = s.executeQuery();
 
             if (result.next()) {
-                userModel.setName(result.getString("Name"));
-                userModel.setEmail(result.getString("mail"));
-                userModel.setSurname(result.getString("Surname"));
-                userModel.setPersonalId(result.getString("PersonalID"));
+                userModel.setName(result.getString("NAME"));
+                userModel.setEmail(result.getString("MAIL"));
+                userModel.setSurname(result.getString("SURNAME"));
+                userModel.setPersonalId(result.getString("PERSONAL_ID"));
+                userModel.setTelephoneNumber(result.getString("TELEPHONE"));
                 userModel.setState(true);
             }
             conn.close();
@@ -187,15 +173,15 @@ public class GenericDb {
     }
 
     public void loginOperator(Operator operatorModel) throws SQLException {
-        String sqlSelect = "SELECT * FROM Operator WHERE UserID=? AND Password=?;";
-        try{
+        String sqlSelect = "SELECT * FROM OPERATOR WHERE ID=? AND PASSWORD=?;";
+        try {
             Connection conn = this.connect();
             PreparedStatement s = conn.prepareStatement(sqlSelect);
             s.setString(1, operatorModel.getId());
             s.setString(2, operatorModel.getPassword());
             ResultSet result = s.executeQuery();
 
-            if(result.next()) {
+            if (result.next()) {
                 operatorModel.setState(true);
             }
             conn.close();
@@ -205,34 +191,34 @@ public class GenericDb {
     }
 
     public void loginAdmin(Admin adminModel) throws SQLException {
-        String sqlSelect = "SELECT * FROM Admin WHERE UserID=? AND Password=?;";
-        try{
+        String sqlSelect = "SELECT * FROM ADMIN WHERE ID=? AND PASSWORD=?;";
+        try {
             Connection conn = this.connect();
             PreparedStatement s = conn.prepareStatement(sqlSelect);
             s.setString(1, adminModel.getId());
             s.setString(2, adminModel.getPassword());
             ResultSet result = s.executeQuery();
 
-            if(result.next()) {
+            if (result.next()) {
                 adminModel.setState(true);
             }
             conn.close();
         } catch (SQLException sqlException) {
-                System.out.println(sqlException.getMessage());
+            System.out.println(sqlException.getMessage());
         }
     }
 
     public void loginIncidentManager(IncidentManager incidentManager) throws SQLException {
-        String sqlSelect = "SELECT * FROM IncidentManager WHERE UserID=? AND Password=?;";
-        try{
+        String sqlSelect = "SELECT * FROM INCIDENT_MANAGER WHERE ID=? AND PASSWORD=?;";
+        try {
             Connection conn = this.connect();
             PreparedStatement s = conn.prepareStatement(sqlSelect);
             s.setString(1, incidentManager.getId());
             s.setString(2, incidentManager.getPassword());
             ResultSet result = s.executeQuery();
 
-            if(result.next()) {
-               incidentManager.setState(true);
+            if (result.next()) {
+                incidentManager.setState(true);
             }
             conn.close();
         } catch (SQLException sqlException) {
@@ -241,17 +227,16 @@ public class GenericDb {
     }
 
 
-
     public String GetNext() {
-        String SqlNext = "SELECT max(substring(USERID,4,40)) FROM Client;";
+        String SqlNext = "SELECT max(substring(ID,4,40)) FROM CLIENT;";
         try (Connection conn = this.connect();
              Statement statement = conn.createStatement();
              ResultSet resultSet = statement.executeQuery(SqlNext)) {
-            if (resultSet.getString("max(substring(USERID,4,40))") == null) {
+            if (resultSet.getString("max(substring(ID,4,40))") == null) {
                 return "3330";
             }
             if (resultSet.next()) {
-                Integer result = resultSet.getInt("max(substring(USERID,4,40))");
+                Integer result = resultSet.getInt("max(substring(ID,4,40))");
                 result++;
                 String Convertion = "333" + String.valueOf(result);
                 return Convertion;
@@ -263,24 +248,23 @@ public class GenericDb {
         return "0";
     }
 
-    public ArrayList<Park> GetParkings() throws SQLException {
-        String sqlPark = "SELECT Nome,Indirizzo,Lat,Long FROM Parcheggio";
-        try(Connection conn = this.connect();
-            Statement statement = conn.createStatement();
-            ResultSet result = statement.executeQuery(sqlPark)) {
+    public ArrayList<Park> getParkings() throws SQLException {
+        String sqlPark = "SELECT * FROM PARK;";
+        try (Connection conn = this.connect();
+             Statement statement = conn.createStatement();
+             ResultSet result = statement.executeQuery(sqlPark)) {
             ArrayList<Park> parks = new ArrayList<Park>();
-            while(result.next()){
-                Park park = new Park(result.getString("Nome"),result.getString("Indirizzo"),result.getFloat("Lat"),result.getFloat("Long"));
+            while (result.next()) {
+                Park park = new Park(result.getString("NAME"), result.getInt("ID"), result.getString("STREET"), result.getInt("CAPACITY"),
+                        result.getInt("LATITUDE"), result.getInt("LONGITUDE"));
                 parks.add(park);
             }
             return parks;
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return new ArrayList<Park>();
     }
-
-
 
 
 //Ringrazio Francesco Pollastro che mi ha dato l' ispirazione in questa

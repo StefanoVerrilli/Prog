@@ -10,8 +10,8 @@ public class HomeOperatorFactory implements HomeFactory {
 
         /*
             OperatorView operator = new OperatorView();
-            loginView.getMainFrame().add(operator);
-            loginView.getMainFrame().repaint();
-            loginView.getMainFrame().revalidate(); */
+            MainFrame.getInstance().add(operator);
+            MainFrame.getInstance().repaint();
+            MainFrame.getInstance().revalidate(); */
     }
 }
