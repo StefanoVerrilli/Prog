@@ -11,6 +11,7 @@ import View.GeneralComponentHomeView.Label.LabelMenu;
 import View.GeneralComponentHomeView.MainPane.MainPane;
 import View.GeneralComponentHomeView.MouseListener.MenuMouseListener;
 import GeneralInsert.GeneralImageInsert;
+import View.LogoutPanel;
 
 import javax.swing.*;
 import java.awt.*;
