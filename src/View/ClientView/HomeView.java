@@ -1,6 +1,8 @@
 package View.ClientView;
 
 
+import ObserverPark.Observable;
+import ObserverPark.Observer;
 import Template.PanesGen;
 import View.ClientView.HistoryView.HistoryPanel;
 import View.ClientView.NoleggioView.NoleggioPanel;
@@ -9,6 +11,7 @@ import View.GeneralComponentHomeView.Label.LabelMenu;
 import View.GeneralComponentHomeView.MainPane.MainPane;
 import View.GeneralComponentHomeView.MouseListener.MenuMouseListener;
 import GeneralInsert.GeneralImageInsert;
+import View.LogoutPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +19,8 @@ import java.sql.SQLException;
 
 public class HomeView extends JPanel {
     JLayeredPane Pain;
-    public HomeView() throws SQLException {
+    public NoleggioPanel Noleggio;
+    public HomeView() throws SQLException, ClassNotFoundException {
 
         this.setLayout(new BoxLayout(this,BoxLayout.X_AXIS));  // Settings for the main frame
         this.setSize(2200,2000);
@@ -26,12 +30,13 @@ public class HomeView extends JPanel {
 
         MainPane Pain = MainPane.getPane();
 
-        NoleggioPanel Noleggio = new NoleggioPanel();
+        Noleggio = new NoleggioPanel();
         HistoryPanel StoricoNoleggi = new HistoryPanel();
         PanesGen Notifichepanel = new PanesGen("Prova");
         PanesGen IncidentiPanel = new PanesGen("IncidentiPanel");
         PanesGen ProfiloPanel = new PanesGen("ProfiloPanel");
         PaymentPanel PagamentoPanel = new PaymentPanel();
+        LogoutPanel Logout = new LogoutPanel();
 
         GeneralImageInsert Image = new GeneralImageInsert("Car.png");
 
@@ -42,6 +47,7 @@ public class HomeView extends JPanel {
         LabelMenu label3 = new LabelMenu(new String("INCIDENTI"));
         LabelMenu label4 = new LabelMenu(new String("PROFILO"));
         LabelMenu label5 = new LabelMenu(new String("PAGAMENTI"));
+        LabelMenu LogoutLabel = new LabelMenu("Logout");
 
         label.addMouseListener(new MenuMouseListener(label,Pain,Noleggio));
         label1.addMouseListener(new MenuMouseListener(label1,Pain,StoricoNoleggi));
@@ -71,6 +77,7 @@ public class HomeView extends JPanel {
         PanelMenu.add(Box.createRigidArea(new Dimension(0, 5)));
         PanelMenu.add(label5);
         PanelMenu.add(Box.createRigidArea(new Dimension(0, 50)));
+        PanelMenu.add(LogoutLabel);
         PanelMenu.add(Box.createVerticalGlue());
 
         Pain.add(Noleggio,BorderLayout.CENTER);

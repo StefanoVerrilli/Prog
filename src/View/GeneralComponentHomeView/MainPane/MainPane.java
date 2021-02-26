@@ -12,6 +12,8 @@ public class MainPane extends JLayeredPane {
         this.setBounds(275,0,1000,2000);
         this.setLayout(new BorderLayout());
         this.setVisible(true);
+        basicPanel = this;
+
     }
 
     public static MainPane getPane() {

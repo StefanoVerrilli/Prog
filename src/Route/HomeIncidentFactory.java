@@ -10,8 +10,8 @@ public class HomeIncidentFactory implements HomeFactory {
 
 
     /*    IncidentView incidentView = new IncidentView();
-        loginView.getMainFrame().add(incidentView);
-        loginView.getMainFrame().repaint();
-        loginView.getMainFrame().revalidate(); */
+        MainFrame.getInstance().add(incidentView);
+        MainFrame.getInstance().repaint();
+        MainFrame.getInstance().revalidate(); */
     }
 }

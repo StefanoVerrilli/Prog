@@ -6,7 +6,7 @@ import GeneralInsert.GeneralTextInsert;
 import javax.swing.*;
 import java.awt.*;
 
-public class SearchByCarEntry extends JPanel {
+public class SearchByCarEntry extends JPanel{
 
     SearchByCarEntry(){
         this.setBounds(0,0,1000,1000);

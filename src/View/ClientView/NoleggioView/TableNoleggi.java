@@ -2,7 +2,10 @@ package View.ClientView.NoleggioView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
+
+import Model.ParkModel.Park;
 import java.util.ArrayList;
 
 public class TableNoleggi extends JPanel {
@@ -23,7 +26,7 @@ public class TableNoleggi extends JPanel {
         for(int i=0;i<data.size();i++){
             String Nome = data.get(i).getName();
             String Indirizzo = data.get(i).getStreet();
-            Object[] array = {Nome,Indirizzo,"Prenota"};
+            Object[] array = {Nome,Indirizzo,"Visualizza Auto"};
             Model.addRow(array);
         }
 
