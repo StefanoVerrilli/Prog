@@ -8,9 +8,9 @@ public class GeneralImageInsert extends JLabel {
     public GeneralImageInsert(String path){
         ImageIcon Image = new ImageIcon(path);
         this.setIcon(Image);
-        this.setHorizontalAlignment(CENTER);
-        this.setAlignmentX(Component.CENTER_ALIGNMENT);
-        this.setMaximumSize(new Dimension(300,1000));
+        //this.setHorizontalAlignment(CENTER);
+        //this.setAlignmentX(Component.CENTER_ALIGNMENT);
+        //this.setMaximumSize(new Dimension(300,1000));
 
     }
 }
