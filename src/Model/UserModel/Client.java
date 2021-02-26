@@ -1,6 +1,6 @@
 package Model.UserModel;
 
-import Queries.UserQuery.ClientQuery;
+
 
 import java.sql.SQLException;
 
@@ -12,8 +12,8 @@ public class Client extends User {
     private String telephoneNumber;
     private static final String category = "Client";
 
-    public Client(){
-        
+    public Client() {
+
     }
 
     public Client(String id, String password) {
@@ -21,7 +21,7 @@ public class Client extends User {
     }
 
     public Client(String id, String password, String name, String email, String surname, String personalId,
-            String telephoneNumber) {
+                  String telephoneNumber) {
         super(id, password);
         this.name = name;
         this.email = email;
@@ -70,29 +70,4 @@ public class Client extends User {
     public void setTelephoneNumber(String telephoneNumber) {
         this.telephoneNumber = telephoneNumber;
     }
-
-    @Override
-    public String getCategory() {
-        return Client.category;
-    }
-
-    @Override
-    public void getUserByIdAndPassword() throws SQLException, ClassNotFoundException {
-        ClientQuery clientQuery = new ClientQuery();
-        clientQuery.getUserByIdAndPassword(this);
-    }
-
-    @Override
-    public void getUserById() {
-        ClientQuery clientQuery = new ClientQuery();
-        clientQuery.getUserById(this);
-    }
-
-    @Override
-    public void setUserById() throws SQLException {
-        ClientQuery clientQuery = new ClientQuery();
-
-        clientQuery.setUserById(this);
-    }
-
 }

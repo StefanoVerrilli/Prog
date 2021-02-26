@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class RegisterController implements Observer {
 
-    private User userModel;
+    private ClientImplement clientImplement;
     private RegisterAttempt registerView;
 
     public RegisterController(RegisterAttempt registerAttempT) {
@@ -30,5 +30,5 @@ public class RegisterController implements Observer {
             RouteNavigator.selectView("Login", registerView);
         
     }
-    
+
 }

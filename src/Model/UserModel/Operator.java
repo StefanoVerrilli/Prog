@@ -12,27 +12,7 @@ public class Operator extends User {
     }
 
     @Override
-    public String getCategory() {
-        return Operator.category;
-    }
-
-    @Override
-    public void getUserByIdAndPassword() throws SQLException {
-        OperatorQuery optQuery = new OperatorQuery();
-
-          optQuery.getUserByIdAndPassword(this);
-    }
-
-    @Override
-    public void getUserById() {
-        OperatorQuery optQuery = new OperatorQuery();
-
-       optQuery.getUserById(this);
-    }
-
-    @Override
-    public void setUserById(){
-        OperatorQuery optQuery = new OperatorQuery();
-        //
+    public String getCategory(){
+        return category;
     }
 }

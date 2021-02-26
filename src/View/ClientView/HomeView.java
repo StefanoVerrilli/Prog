@@ -36,7 +36,7 @@ public class HomeView extends JPanel {
         PanesGen IncidentiPanel = new PanesGen("IncidentiPanel");
         PanesGen ProfiloPanel = new PanesGen("ProfiloPanel");
         PaymentPanel PagamentoPanel = new PaymentPanel();
-        LogoutPanel Logout = new LogoutPanel();
+        //LogoutPanel Logout = new LogoutPanel();
 
         GeneralImageInsert Image = new GeneralImageInsert("Car.png");
 
@@ -77,7 +77,7 @@ public class HomeView extends JPanel {
         PanelMenu.add(Box.createRigidArea(new Dimension(0, 5)));
         PanelMenu.add(label5);
         PanelMenu.add(Box.createRigidArea(new Dimension(0, 50)));
-        PanelMenu.add(LogoutLabel);
+        //PanelMenu.add(LogoutLabel);
         PanelMenu.add(Box.createVerticalGlue());
 
         Pain.add(Noleggio,BorderLayout.CENTER);

@@ -8,8 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class User implements Observable {
-    private ArrayList<Observer> views = new ArrayList<Observer>();
+public class User {
     private String id;
     private String password;
     private String name;
@@ -72,34 +71,6 @@ public class User implements Observable {
         this.state = state;
     }
 
-    @Override
-    public void attach(Observer observer) {
-        views.add(observer);
-    }
 
-    @Override
-    public void detach(Observer observer) {
-        views.remove(observer);
-    }
-
-    @Override
-    public void inform() throws SQLException, ClassNotFoundException {
-        for (Observer observer : views) {
-
-            observer.update(this);
-        }
-    }
-
-    public void getUserByIdAndPassword() throws SQLException, ClassNotFoundException {
-
-    }
-
-    public void getUserById(){
-         //
-    }
-
-	public void setUserById() throws SQLException {
-      //
-	}
     
 }

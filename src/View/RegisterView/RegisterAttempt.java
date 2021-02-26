@@ -1,8 +1,7 @@
 package View.RegisterView;
 
+import Model.UserModel.ClientImplement;
 import ObserverLogin.*;
-import Model.UserModel.Client;
-import Model.UserModel.User;
 import GeneralInsert.*;
 import MainFrame.MainFrame;
 
@@ -54,12 +53,12 @@ public class RegisterAttempt extends JButton implements ActionListener, Observer
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == this) {
             if (password.getText().equals(confirmPassword.getText())) {
-                userModel.setName(name.getText());
-                userModel.setSurname(surname.getText());
-                userModel.setEmail(email.getText());
-                userModel.setTelephoneNumber(telephoneNumber.getText());
-                userModel.setPersonalId(personalId.getText());
-                userModel.setPassword(password.getText());
+                clientImplement.getUser().setName(name.getText());
+                clientImplement.getUser().setSurname(surname.getText());
+                clientImplement.getUser().setEmail(email.getText());
+                clientImplement.getUser().setTelephoneNumber(telephoneNumber.getText());
+                clientImplement.getUser().setPersonalId(personalId.getText());
+                clientImplement.getUser().setPassword(password.getText());
 
                 try {
                     this.inform();
@@ -88,14 +87,14 @@ public class RegisterAttempt extends JButton implements ActionListener, Observer
     @Override
     public void inform() throws SQLException, ClassNotFoundException {
         for (Observer observer : controllers) {
-            observer.update(this.userModel);
+            observer.update(this.clientImplement);
         }
     }
 
     @Override
-    public void update(User userModel) {
-        this.userModel = (Client) userModel;
-        if (userModel.getState() == false)
+    public void update(T clientImplement) {
+        this.clientImplement = (ClientImplement) clientImplement;
+        if (this.clientImplement.getUser().getState() == false)
             JOptionPane.showMessageDialog(null, "Email non valida");
         else
             JOptionPane.showMessageDialog(null, "Registrazione Effettutata il tuo id per accedere è " + userModel.getId());

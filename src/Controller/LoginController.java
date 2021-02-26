@@ -1,17 +1,18 @@
 package Controller;
 
 import Model.StateModel.State;
+import Model.UserModel.UserImplement;
 import ObserverLogin.Observer;
 import Model.UserModel.User;
+import UserFactory.UserFactory;
 import View.LoginView.LoginAttempT;
-import UserFactory.*;
 import Route.RouteNavigator;
 
 import java.sql.SQLException;
 
 public class LoginController implements Observer {
 
-    private User userModel;
+    private UserImplement userImplement;
     private LoginAttempT loginView;
 
     public LoginController(LoginAttempT loginAttempT) {
@@ -20,35 +21,36 @@ public class LoginController implements Observer {
     }
 
     @Override
-    public void update(User userTempModel) throws SQLException, ClassNotFoundException {
+    public void update(T userTempModel) throws SQLException, ClassNotFoundException {
         //Create Model
-        userModel = new UserFactory().createUser(userTempModel);
+        userImplement = UserFactory.createUser((UserImplement)userTempModel);
+
 
         //Query
-        userModel.getUserByIdAndPassword();
+        userImplement.setUserByIdAndPassword();
+
 
 
         //Attach view to "new" Model
-        if (!userModel.equals(userTempModel)) userModel.attach(loginView);
+        if (!userImplement.equals(userTempModel)) userImplement.attach(loginView);
 
         //Notify View
-        userModel.inform();
+        userImplement.inform();
 
         //SwitchView
-        if (userModel.getState()) {
-            State.getIstance().setId(userModel.getId());
-            State.getIstance().setCategory(userModel.getCategory());
+        if (userImplement.getUser().getState()) {
+            State.getIstance().setId(userImplement.getUser().getId());
+            State.getIstance().setCategory(userImplement.getUser().getCategory());
             System.out.println(State.getIstance().getId());
-            RouteNavigator.selectHome(loginView, userModel);
+            RouteNavigator.selectHome(loginView, userImplement.getUser());
         }
     }
-        public User getUserModel () {
-            return userModel;
+        public UserImplement getUserModel () {
+            return userImplement;
         }
 
         public LoginAttempT getLoginView () {
             return loginView;
         }
 
-
-    }
+}

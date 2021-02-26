@@ -1,6 +1,7 @@
 package View.LoginView;
 
 import MainFrame.MainFrame;
+import Model.UserModel.UserImplement;
 import ObserverLogin.*;
 import Model.UserModel.User;
 
@@ -93,4 +94,13 @@ public class LoginAttempT extends JButton implements ActionListener, Observer, O
         }
     }
 
+    public void update(T userImplement) throws SQLException, ClassNotFoundException {
+        this.userImplement =(UserImplement) userImplement;
+        if (this.userImplement.getUser().getState()) {
+            JOptionPane.showMessageDialog(null,
+                    "Login Effettuato " + ((UserImplement) userImplement).getUser().getCategory() + " ID: " + this.userImplement.getUser().getId());
+        } else {
+            JOptionPane.showMessageDialog(null, "ID  e/o password errati!" + this.userImplement.getUser().getId());
+        }
+    }
 }

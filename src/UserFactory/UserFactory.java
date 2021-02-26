@@ -7,18 +7,21 @@ public class UserFactory {
     public UserFactory() {
     }
 
-    public User createUser(User userModel) {
+    public static UserImplement createUser(UserImplement userImplement) {
 
-        String prefix = userModel.getId().substring(0, 3);
+        String prefix = userImplement.getUser().getId().substring(0, 3);
+
 
         switch (prefix) {
-            case "000" -> userModel = new Admin(userModel.getId(), userModel.getPassword());
-            case "111" -> userModel = new Operator(userModel.getId(), userModel.getPassword());
-            case "222" -> userModel = new IncidentManager(userModel.getId(), userModel.getPassword());
-            case "333" -> userModel = new Client(userModel.getId(), userModel.getPassword());
-        }
+            case "000" -> userImplement = new AdminImplement(new Admin(userImplement.getUser().getId(), userImplement.getUser().getPassword()));
+            case "111" -> userImplement = new OperatorImplement(new Operator(userImplement.getUser().getId(), userImplement.getUser().getPassword()));
+            case "222" -> userImplement = new IncidentManagerImplement(new IncidentManager(userImplement.getUser().getId(), userImplement.getUser().getPassword()));
+            case "333" -> userImplement = new ClientImplement(new Client(userImplement.getUser().getId(), userImplement.getUser().getPassword()));
 
-        return userModel;
+        }
+        System.out.println(userImplement.getUser().getCategory());
+
+        return userImplement;
     }
 
 }
