@@ -2,7 +2,6 @@ package View.LoginView;
 
 import View.RegisterView.RegisterLabel;
 import MainFrame.*;
-import Model.UserModel.User;
 import GeneralInsert.*;
 
 import javax.swing.*;
@@ -22,8 +21,9 @@ public class LoginPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setSize(2200, 2200);
         this.setBackground(new Color(0x028998));
+        this.setBackground(new Color(0,0,0,0)); // imposta lo sfondo trasparente
 
-        // GeneralImageInsert image = new GeneralImageInsert("Wiki.png");
+        GeneralImageInsert image = new GeneralImageInsert("logo.png"); // logo nella pagina di login
 
         RegisterLabel register = new RegisterLabel(this,frame);
         GeneralTextInsert username = new GeneralTextInsert("Username");
@@ -31,7 +31,7 @@ public class LoginPanel extends JPanel {
         Submit = new LoginAttempT("Submit", this, password, username, frame );
 
         this.add(Box.createVerticalGlue());
-        // this.add(image);
+        this.add(image);
         this.add(Box.createRigidArea(new Dimension(0, 10)));
         this.add(username);
         this.add(Box.createRigidArea(new Dimension(0, 4)));
@@ -41,8 +41,6 @@ public class LoginPanel extends JPanel {
         this.add(Box.createRigidArea(new Dimension(0, 5)));
         this.add(register);
         this.add(Box.createVerticalGlue());
-
-        // image.requestFocus();
 
     }
 
