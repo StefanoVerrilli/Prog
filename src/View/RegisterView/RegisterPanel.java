@@ -15,6 +15,7 @@ public class RegisterPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setSize(2200, 2200);
         this.setBackground(new Color(0x028998));
+        this.setBackground(new Color(0,0,0,0)); // sfondo trasparente
         this.setVisible(true);
         mainFrame = frame;
         GeneralTextInsert name = new GeneralTextInsert("name");
@@ -24,10 +25,10 @@ public class RegisterPanel extends JPanel {
         GeneralTextInsert email = new GeneralTextInsert("email");
         GeneralPasswordInsert password = new GeneralPasswordInsert("password");
         GeneralPasswordInsert confirmPassword = new GeneralPasswordInsert("confirm password");
-        //GeneralImageInsert Image = new GeneralImageInsert("");
+        GeneralImageInsert image = new GeneralImageInsert("Contact.png"); // immagine utente nella pagina di registrazione
 
         this.add(Box.createVerticalGlue());
-        //this.add(new GeneralImageInsert("Contact.png"));
+        this.add(image);
         this.add(Box.createRigidArea(new Dimension(0, 20)));
         this.add(name);
         this.add(Box.createRigidArea(new Dimension(0, 5)));
